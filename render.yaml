@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: cgpa-calculator-6th-sem
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"

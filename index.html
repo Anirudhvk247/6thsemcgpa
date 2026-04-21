@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6th Sem CGPA Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="orbital-canvas" aria-hidden="true"></canvas>
+    <main class="app-shell">
+      <section class="hero-panel glass-panel">
+        <div>
+          <p class="eyebrow">6th semester planner</p>
+          <h1>CGPA target calculator</h1>
+          <p class="intro">
+            Enter your desired CGPA, internal marks, and two difficult subjects.
+            You can choose 2 tough subjects. The planner keeps them one grade
+            band below your target and balances the missing points through
+            other subjects or credit combinations.
+          </p>
+        </div>
+
+        <div class="target-card">
+          <label for="desiredCgpa">Desired CGPA</label>
+          <div class="target-row">
+            <input id="desiredCgpa" type="number" min="7" max="10" step="0.1" value="9.0" />
+            <span>/ 10</span>
+          </div>
+          <p id="targetPointsText">Target: 180 / 200 weighted points</p>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <form id="calculatorForm" class="glass-panel calculator-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Step 1</p>
+              <h2>Marks and difficulty</h2>
+            </div>
+            <p>Select exactly two tough subjects. Minimum passing external marks are 40.</p>
+          </div>
+
+          <div id="subjectGrid" class="subject-grid"></div>
+
+          <div class="actions">
+            <button type="button" id="sampleBtn" class="ghost-btn">Load sample marks</button>
+            <button type="submit" class="primary-btn">Calculate minimum externals</button>
+          </div>
+        </form>
+
+        <aside class="glass-panel results-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Step 2</p>
+              <h2>Recommended plan</h2>
+            </div>
+            <button id="downloadBtn" class="download-btn" type="button" disabled>
+              Download PDF
+            </button>
+          </div>
+
+          <div id="summary" class="summary empty-state">
+            Add your marks and calculate to see the balanced minimum external score plan.
+          </div>
+
+          <div id="resultTable" class="result-table" aria-live="polite"></div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
