@@ -511,6 +511,25 @@ function initThreeScene() {
     emissive: 0x0b3c2d,
     emissiveIntensity: 0.65,
   });
+  const penMaterial = new THREE.MeshStandardMaterial({
+    color: 0x161b2b,
+    metalness: 0.36,
+    roughness: 0.28,
+    emissive: 0x050713,
+    emissiveIntensity: 0.36,
+  });
+  const penAccentMaterial = new THREE.MeshStandardMaterial({
+    color: 0x47b7ff,
+    metalness: 0.42,
+    roughness: 0.22,
+    emissive: 0x092940,
+    emissiveIntensity: 0.62,
+  });
+  const penTipMaterial = new THREE.MeshStandardMaterial({
+    color: 0xd6e8f5,
+    metalness: 0.72,
+    roughness: 0.18,
+  });
 
   const lowerCover = new THREE.Mesh(new THREE.BoxGeometry(2.7, 0.16, 1.82), coverMaterial);
   lowerCover.position.set(0, -0.12, 0);
@@ -534,6 +553,34 @@ function initThreeScene() {
   bookmark.position.set(0.24, 0.13, -0.08);
   bookmark.rotation.z = 0.05;
   group.add(bookmark);
+
+  const pen = new THREE.Group();
+  pen.position.set(0.18, 0.31, 0.12);
+  pen.rotation.set(0.1, 0.04, -0.58);
+  group.add(pen);
+
+  const penBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.055, 1.72, 32), penMaterial);
+  penBarrel.rotation.z = Math.PI / 2;
+  pen.add(penBarrel);
+
+  const penGrip = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.062, 0.36, 32), penAccentMaterial);
+  penGrip.position.x = 0.48;
+  penGrip.rotation.z = Math.PI / 2;
+  pen.add(penGrip);
+
+  const penCapBand = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.064, 0.08, 32), penAccentMaterial);
+  penCapBand.position.x = -0.62;
+  penCapBand.rotation.z = Math.PI / 2;
+  pen.add(penCapBand);
+
+  const penTip = new THREE.Mesh(new THREE.ConeGeometry(0.067, 0.22, 32), penTipMaterial);
+  penTip.position.x = 0.96;
+  penTip.rotation.z = -Math.PI / 2;
+  pen.add(penTip);
+
+  const penClip = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.018, 0.045), penAccentMaterial);
+  penClip.position.set(-0.38, 0.08, 0.04);
+  pen.add(penClip);
 
   for (let i = 0; i < 7; i += 1) {
     const line = new THREE.Mesh(new THREE.BoxGeometry(1.02, 0.012, 0.012), pageEdgeMaterial);
