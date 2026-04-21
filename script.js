@@ -482,24 +482,93 @@ function initThreeScene() {
   const group = new THREE.Group();
   scene.add(group);
 
-  const knotGeometry = new THREE.TorusKnotGeometry(1.28, 0.22, 180, 18);
-  const knotMaterial = new THREE.MeshStandardMaterial({
-    color: 0x47b7ff,
-    metalness: 0.48,
-    roughness: 0.28,
-    emissive: 0x0c2f44,
-    emissiveIntensity: 0.6,
-  });
-  const knot = new THREE.Mesh(knotGeometry, knotMaterial);
-  knot.position.set(3.1, 0.2, -1.4);
-  group.add(knot);
+  group.position.set(3.05, 0.05, -1.55);
+  group.rotation.set(-0.18, -0.52, 0.08);
 
-  const ringGeometry = new THREE.TorusGeometry(2.05, 0.012, 16, 160);
-  const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x2ee6a6, transparent: true, opacity: 0.58 });
-  const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-  ring.rotation.x = Math.PI / 2.6;
-  ring.position.copy(knot.position);
-  group.add(ring);
+  const coverMaterial = new THREE.MeshStandardMaterial({
+    color: 0x2454ff,
+    metalness: 0.18,
+    roughness: 0.38,
+    emissive: 0x07133b,
+    emissiveIntensity: 0.46,
+  });
+  const pageMaterial = new THREE.MeshStandardMaterial({
+    color: 0xf7fbff,
+    metalness: 0.03,
+    roughness: 0.62,
+  });
+  const pageEdgeMaterial = new THREE.MeshStandardMaterial({
+    color: 0xb7e6ff,
+    metalness: 0.02,
+    roughness: 0.5,
+    transparent: true,
+    opacity: 0.88,
+  });
+  const bookmarkMaterial = new THREE.MeshStandardMaterial({
+    color: 0x2ee6a6,
+    metalness: 0.12,
+    roughness: 0.42,
+    emissive: 0x0b3c2d,
+    emissiveIntensity: 0.65,
+  });
+
+  const lowerCover = new THREE.Mesh(new THREE.BoxGeometry(2.7, 0.16, 1.82), coverMaterial);
+  lowerCover.position.set(0, -0.12, 0);
+  group.add(lowerCover);
+
+  const leftPages = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.12, 1.62), pageMaterial);
+  leftPages.position.set(-0.66, 0.03, 0.03);
+  leftPages.rotation.z = -0.08;
+  group.add(leftPages);
+
+  const rightPages = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.12, 1.62), pageMaterial);
+  rightPages.position.set(0.66, 0.03, 0.03);
+  rightPages.rotation.z = 0.08;
+  group.add(rightPages);
+
+  const spine = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.18, 1.9), coverMaterial);
+  spine.position.set(0, -0.02, 0);
+  group.add(spine);
+
+  const bookmark = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.035, 1.2), bookmarkMaterial);
+  bookmark.position.set(0.24, 0.13, -0.08);
+  bookmark.rotation.z = 0.05;
+  group.add(bookmark);
+
+  for (let i = 0; i < 7; i += 1) {
+    const line = new THREE.Mesh(new THREE.BoxGeometry(1.02, 0.012, 0.012), pageEdgeMaterial);
+    line.position.set(-0.64, 0.105 + i * 0.009, -0.56 + i * 0.18);
+    line.rotation.z = -0.08;
+    group.add(line);
+  }
+
+  for (let i = 0; i < 7; i += 1) {
+    const line = new THREE.Mesh(new THREE.BoxGeometry(1.02, 0.012, 0.012), pageEdgeMaterial);
+    line.position.set(0.64, 0.105 + i * 0.009, -0.56 + i * 0.18);
+    line.rotation.z = 0.08;
+    group.add(line);
+  }
+
+  const chipMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffd166,
+    metalness: 0.22,
+    roughness: 0.35,
+    emissive: 0x3f2f08,
+    emissiveIntensity: 0.42,
+  });
+
+  const chips = [];
+  [
+    [-1.25, 0.72, -0.62],
+    [1.28, 0.68, 0.5],
+    [0.12, 0.96, 0.92],
+  ].forEach((position) => {
+    const chip = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.04, 32), chipMaterial);
+    chip.position.set(...position);
+    chip.rotation.x = Math.PI / 2;
+    group.add(chip);
+    chips.push(chip);
+  });
 
   const pointsGeometry = new THREE.BufferGeometry();
   const vertices = [];
@@ -534,9 +603,12 @@ function initThreeScene() {
 
   function animate(time) {
     const t = time * 0.001;
-    knot.rotation.x = t * 0.26;
-    knot.rotation.y = t * 0.38;
-    ring.rotation.z = t * 0.25;
+    group.rotation.y = -0.52 + Math.sin(t * 0.72) * 0.12;
+    group.rotation.x = -0.18 + Math.sin(t * 0.54) * 0.045;
+    chips.forEach((chip, index) => {
+      chip.position.y = 0.72 + Math.sin(t * 1.4 + index * 1.7) * 0.08;
+      chip.rotation.z = t * 0.8 + index;
+    });
     stars.rotation.y = t * 0.018;
     group.position.y = Math.sin(t * 0.9) * 0.08;
     renderer.render(scene, camera);
