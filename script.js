@@ -482,20 +482,23 @@ function initThreeScene() {
   const group = new THREE.Group();
   scene.add(group);
 
-  group.position.set(3.05, 0.05, -1.55);
+  group.position.set(2.85, 0.25, -0.75);
   group.rotation.set(-0.18, -0.52, 0.08);
+  group.scale.setScalar(1.28);
 
   const coverMaterial = new THREE.MeshStandardMaterial({
-    color: 0x2454ff,
+    color: 0x2f68ff,
     metalness: 0.18,
     roughness: 0.38,
     emissive: 0x07133b,
-    emissiveIntensity: 0.46,
+    emissiveIntensity: 0.7,
   });
   const pageMaterial = new THREE.MeshStandardMaterial({
-    color: 0xf7fbff,
+    color: 0xffffff,
     metalness: 0.03,
     roughness: 0.62,
+    emissive: 0xdff5ff,
+    emissiveIntensity: 0.12,
   });
   const pageEdgeMaterial = new THREE.MeshStandardMaterial({
     color: 0xb7e6ff,
@@ -512,14 +515,14 @@ function initThreeScene() {
     emissiveIntensity: 0.65,
   });
   const penMaterial = new THREE.MeshStandardMaterial({
-    color: 0x161b2b,
+    color: 0x0c1120,
     metalness: 0.36,
     roughness: 0.28,
     emissive: 0x050713,
-    emissiveIntensity: 0.36,
+    emissiveIntensity: 0.62,
   });
   const penAccentMaterial = new THREE.MeshStandardMaterial({
-    color: 0x47b7ff,
+    color: 0x5fd1ff,
     metalness: 0.42,
     roughness: 0.22,
     emissive: 0x092940,
@@ -632,15 +635,19 @@ function initThreeScene() {
   const stars = new THREE.Points(pointsGeometry, pointsMaterial);
   scene.add(stars);
 
-  const keyLight = new THREE.PointLight(0x47b7ff, 35, 18);
-  keyLight.position.set(4, 3, 4);
+  const keyLight = new THREE.PointLight(0x65cfff, 56, 20);
+  keyLight.position.set(4, 3.5, 4.5);
   scene.add(keyLight);
 
-  const fillLight = new THREE.PointLight(0x2ee6a6, 18, 14);
+  const fillLight = new THREE.PointLight(0x2ee6a6, 28, 16);
   fillLight.position.set(-3, -2, 4);
   scene.add(fillLight);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+  const warmLight = new THREE.PointLight(0xffd166, 16, 12);
+  warmLight.position.set(2, 1, 3);
+  scene.add(warmLight);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.44));
 
   function resize() {
     camera.aspect = window.innerWidth / window.innerHeight;
